@@ -7,7 +7,7 @@ import subprocess
 
 
 pathname = os.path.abspath(os.path.dirname(sys.argv[0]))
-os.chdir(pathname)
+os.chdir(pathname + "/..")
 
 def print_diff(a, b):
     d = difflib.Differ()
@@ -28,13 +28,13 @@ def main():
     skipped = 0
 
     input_cases = (
-        ([], "output0.ref"),
-        (["input1"], "input1.ref"),
-        (["-h"], "dash-h.ref"),
+        ([], "characterization/output0.ref"),
+        (["characterization/input1"], "characterization/input1.ref"),
+        (["-h"], "characterization/dash-h.ref"),
     )
 
     for cmdline, reference in input_cases:
-        cmd = ["../win_cat/cat.py"] + cmdline
+        cmd = ["win_cat/cat.py"] + cmdline
         print(f"{' '.join(cmd)} <-> {reference}", end = "")
         try:
             output = subprocess.check_output(cmd,
