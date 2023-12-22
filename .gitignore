@@ -5,3 +5,4 @@ htmlcov
 *,cover
 .coverage
 .coverage*
+__pycache__
