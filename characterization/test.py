@@ -21,7 +21,7 @@ def get_input(input_file):
     with open(input_file, "rb") as f:
         return f.read().decode()   
 
-def main():
+def main(prefix):
     show_diff = True
     passed = 0
     failed = 0
@@ -34,7 +34,7 @@ def main():
     )
 
     for cmdline, reference in input_cases:
-        cmd = ["win_cat/cat.py"] + cmdline
+        cmd = prefix + ["win_cat/cat.py"] + cmdline
         print(f"{' '.join(cmd)} <-> {reference}", end = "")
         try:
             output = subprocess.check_output(cmd,
@@ -60,5 +60,5 @@ def main():
     return failed
 
 if __name__ == "__main__":
-    failed = main()
+    failed = main([])
     sys.exit(failed != 0)
