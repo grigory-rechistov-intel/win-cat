@@ -31,6 +31,7 @@ def main(prefix):
         ([], "characterization/output0.ref"),
         (["characterization/input1"], "characterization/input1.ref"),
         (["-h"], "characterization/dash-h.ref"),
+        (["-"], "characterization/output0.ref"),
     )
 
     for cmdline, reference in input_cases:
