@@ -61,5 +61,6 @@ def main(prefix):
     return failed
 
 if __name__ == "__main__":
-    failed = main([])
+    prefix = [sys.executable]
+    failed = main(prefix)
     sys.exit(failed != 0)
