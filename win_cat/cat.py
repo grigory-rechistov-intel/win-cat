@@ -64,6 +64,18 @@ def display_binary_data(data, replacements: dict[int, str]):
             output += chr(c)
     sys.stdout.write(output)
 
+def cat_from_stdin(replacements: dict[int, str]):
+    try:
+        while True:
+            c = sys.stdin.read(1)
+            if c == "":
+                sys.exit(0)
+            display_data(c + sys.stdin.readline(), replacements)
+    except KeyboardInterrupt:
+        sys.exit(0)
+    except EOFError:
+        sys.exit(0)
+
 def main():
     args = parser.parse_args()
     replacements = get_replacements(
@@ -71,29 +83,11 @@ def main():
     )
 
     if len(args.files) == 0:
-        try:
-            while True:
-                c = sys.stdin.read(1)
-                if c == "":
-                    sys.exit(0)
-                display_data(c + sys.stdin.readline(), replacements)
-        except KeyboardInterrupt:
-            sys.exit(0)
-        except EOFError:
-            sys.exit(0)
+        cat_from_stdin(replacements)
     else:
         for filename in args.files:
             if filename == "-":
-                try:
-                    while True:
-                        c = sys.stdin.read(1)
-                        if c == "":
-                            sys.exit(0)
-                        display_data(c + sys.stdin.readline(), replacements)
-                except KeyboardInterrupt:
-                    sys.exit(0)
-                except EOFError:
-                    sys.exit(0)
+                cat_from_stdin(replacements)
             else:
                 try:
                     with open(filename, "rb") as f:
@@ -102,7 +96,6 @@ def main():
                     print("cat: %s: No such file or directory" % filename, file=sys.stderr)
                 except IsADirectoryError:
                     print("cat: %s: Is a directory" % filename, file=sys.stderr)
-
 
 if __name__ == "__main__":
     main()
