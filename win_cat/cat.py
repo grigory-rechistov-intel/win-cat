@@ -11,8 +11,6 @@ parser.add_argument("-T", "--show-tabs", action="store_true", help="display TAB 
 parser.add_argument("-v", "--show-nonprinting", action="store_true", help="use ^ and M- notation, except for LFD and TAB")
 
 
-replacements = {}
-
 def nonprinting_replacements() -> dict[int, str]:
     lookup = {}
 
@@ -28,8 +26,9 @@ def nonprinting_replacements() -> dict[int, str]:
 
     return lookup
 
-def get_replacements(args):
-    # Set the replacement characters
+def get_replacements(args) -> dict[int, str]:
+    replacements: dict[int, str] = {}
+
     if args.show_all:
         args.show_ends = True
         args.show_tabs = True
@@ -41,8 +40,10 @@ def get_replacements(args):
         replacements[9] = "^I"
     if args.show_nonprinting:
         replacements.update(nonprinting_replacements())
+    
+    return replacements
 
-def display_data(data):
+def display_data(data, replacements: dict[int, str]):
     output = ""
     for c in data:
         if ord(c) in replacements:
@@ -51,7 +52,7 @@ def display_data(data):
             output += c
     sys.stdout.write(output)
 
-def display_binary_data(data):
+def display_binary_data(data, replacements: dict[int, str]):
     output = ""
     for c in data:
         if c in replacements:
@@ -62,7 +63,7 @@ def display_binary_data(data):
 
 def main():
     args = parser.parse_args()
-    get_replacements(args)
+    replacements = get_replacements(args)
 
     if len(args.files) == 0:
         try:
@@ -70,7 +71,7 @@ def main():
                 c = sys.stdin.read(1)
                 if c == "":
                     sys.exit(0)
-                display_data(c + sys.stdin.readline())
+                display_data(c + sys.stdin.readline(), replacements)
         except KeyboardInterrupt:
             sys.exit(0)
         except EOFError:
@@ -83,7 +84,7 @@ def main():
                         c = sys.stdin.read(1)
                         if c == "":
                             sys.exit(0)
-                        display_data(c + sys.stdin.readline())
+                        display_data(c + sys.stdin.readline(), replacements)
                 except KeyboardInterrupt:
                     sys.exit(0)
                 except EOFError:
@@ -91,7 +92,7 @@ def main():
             else:
                 try:
                     with open(filename, "rb") as f:
-                        display_binary_data(f.read())
+                        display_binary_data(f.read(), replacements)
                 except FileNotFoundError:
                     print("cat: %s: No such file or directory" % filename, file=sys.stderr)
                 except IsADirectoryError:
