@@ -42,6 +42,7 @@ def main(prefix):
         (["-A", "characterization/input-0xa0"], "characterization/output-0xa0-dash-A.ref"),
         (["-T", "characterization/input-tab"], "characterization/output-tab-dash-T.ref"),
         (["-E", "characterization/input-newline"], "characterization/output-newline-dash-E.ref"),
+        (["-", "characterization/input1"], "characterization/input1.ref"),
     )
 
     for cmdline, reference in input_cases:
