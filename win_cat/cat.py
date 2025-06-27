@@ -6,15 +6,9 @@ import argparse
 parser = argparse.ArgumentParser(prog="cat", description="Concatenate FILE(s) to standard output.\n\nWith no FILE or when FILE is -, read standard input.")
 parser.add_argument("files", metavar="FILE", type=str, nargs="*", help="A file to print or - for standard input")
 parser.add_argument("-A", "--show-all", action="store_true", help="equivalent to -vET")
-parser.add_argument("-e", action="store_true", help="equivalent to -vE")
 parser.add_argument("-E", "--show-ends", action="store_true", help="display $ at the end of each line")
-parser.add_argument("-t", action="store_true", help="equivalent to -vT")
 parser.add_argument("-T", "--show-tabs", action="store_true", help="display TAB character as ^I")
-parser.add_argument("-u", action="store_true", help="(ignored)")
 parser.add_argument("-v", "--show-nonprinting", action="store_true", help="use ^ and M- notation, except for LFD and TAB")
-parser.add_argument('-vE', action="store_true", help=argparse.SUPPRESS)
-parser.add_argument('-vT', action="store_true", help=argparse.SUPPRESS)
-parser.add_argument('-vET', action="store_true", help=argparse.SUPPRESS)
 
 
 replacements = {}
@@ -32,18 +26,13 @@ def v_replacements():
 
 def get_replacements(args):
     # Set the replacement characters
-    if args.show_all or args.vET:
-        v_replacements()
-        replacements[10] = "$\n"
-        replacements[9] = "^I"
-    if args.e or args.vE:
-        v_replacements()
-        replacements[10] = "$\n"
+    if args.show_all:
+        args.show_ends = True
+        args.show_tabs = True
+        args.show_nonprinting = True
+
     if args.show_ends:
         replacements[10] = "$\n"
-    if args.t or args.vT:
-        v_replacements()
-        replacements[9] = "^I"
     if args.show_tabs:
         replacements[9] = "^I"
     if args.show_nonprinting:

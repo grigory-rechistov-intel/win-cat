@@ -1,4 +1,4 @@
-usage: cat [-h] [-A] [-e] [-E] [-t] [-T] [-u] [-v] [FILE ...]
+usage: cat [-h] [-A] [-E] [-T] [-v] [FILE ...]
 
 Concatenate FILE(s) to standard output. With no FILE or when FILE is -, read
 standard input.
@@ -9,10 +9,7 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   -A, --show-all        equivalent to -vET
-  -e                    equivalent to -vE
   -E, --show-ends       display $ at the end of each line
-  -t                    equivalent to -vT
   -T, --show-tabs       display TAB character as ^I
-  -u                    (ignored)
   -v, --show-nonprinting
                         use ^ and M- notation, except for LFD and TAB
