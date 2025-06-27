@@ -1,5 +1,4 @@
-usage: cat [-h] [-A] [-b] [-e] [-E] [-n] [-s] [-t] [-T] [-u] [-v]
-           [FILE [FILE ...]]
+usage: cat [-h] [-A] [-b] [-e] [-E] [-n] [-s] [-t] [-T] [-u] [-v] [FILE ...]
 
 Concatenate FILE(s) to standard output. With no FILE or when FILE is -, read
 standard input.
@@ -7,7 +6,7 @@ standard input.
 positional arguments:
   FILE                  A file to print or - for standard input
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -A, --show-all        equivalent to -vET
   -b, --number-nonblank
