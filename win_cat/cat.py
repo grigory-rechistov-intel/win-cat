@@ -46,7 +46,7 @@ def get_replacements(
     
     return replacements
 
-def display_data(data, replacements: dict[int, str]):
+def display_data(data: str, replacements: dict[int, str]):
     output = ""
     for c in data:
         if ord(c) in replacements:
@@ -55,7 +55,7 @@ def display_data(data, replacements: dict[int, str]):
             output += c
     sys.stdout.write(output)
 
-def display_binary_data(data, replacements: dict[int, str]):
+def display_binary_data(data: bytes, replacements: dict[int, str]):
     output = ""
     for c in data:
         if c in replacements:
