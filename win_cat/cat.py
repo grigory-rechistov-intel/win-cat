@@ -26,19 +26,16 @@ def nonprinting_replacements() -> dict[int, str]:
 
     return lookup
 
-def get_replacements(args) -> dict[int, str]:
+def get_replacements(
+    show_ends: bool, show_tabs: bool, show_nonprinting: bool
+) -> dict[int, str]:
     replacements: dict[int, str] = {}
 
-    if args.show_all:
-        args.show_ends = True
-        args.show_tabs = True
-        args.show_nonprinting = True
-
-    if args.show_ends:
+    if show_ends:
         replacements[10] = "$\n"
-    if args.show_tabs:
+    if show_tabs:
         replacements[9] = "^I"
-    if args.show_nonprinting:
+    if show_nonprinting:
         replacements.update(nonprinting_replacements())
     
     return replacements
@@ -63,7 +60,14 @@ def display_binary_data(data, replacements: dict[int, str]):
 
 def main():
     args = parser.parse_args()
-    replacements = get_replacements(args)
+    if args.show_all:
+        args.show_ends = True
+        args.show_tabs = True
+        args.show_nonprinting = True
+
+    replacements = get_replacements(
+        args.show_ends, args.show_tabs, args.show_nonprinting
+    )
 
     if len(args.files) == 0:
         try:
