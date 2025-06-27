@@ -13,16 +13,20 @@ parser.add_argument("-v", "--show-nonprinting", action="store_true", help="use ^
 
 replacements = {}
 
-def v_replacements():
+def nonprinting_replacements() -> dict[int, str]:
+    lookup = {}
+
     for i in range(9):
-        replacements[i] = "^" + chr(i + 64)
+        lookup[i] = "^" + chr(i + 64)
     for i in range(11, 32):
-        replacements[i] = "^" + chr(i + 64)
+        lookup[i] = "^" + chr(i + 64)
     for i in range(128, 160):
-        replacements[i] = "M-^" + chr(i - 64)
+        lookup[i] = "M-^" + chr(i - 64)
     for i in range(160, 255):
-        replacements[i] = "M-" + chr(i - 128)
-    replacements[255] = "M-^?"
+        lookup[i] = "M-" + chr(i - 128)
+    lookup[255] = "M-^?"
+
+    return lookup
 
 def get_replacements(args):
     # Set the replacement characters
@@ -36,7 +40,7 @@ def get_replacements(args):
     if args.show_tabs:
         replacements[9] = "^I"
     if args.show_nonprinting:
-        v_replacements()
+        replacements.update(nonprinting_replacements())
 
 def display_data(data):
     output = ""
