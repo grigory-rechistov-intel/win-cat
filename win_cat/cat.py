@@ -65,7 +65,6 @@ def get_replacements(args):
 
 
 def display_data(data):
-    # breakpoint()
     output = ""
     for c in data:
         if ord(c) in replacements:
@@ -75,7 +74,6 @@ def display_data(data):
     sys.stdout.write(output)
 
 def display_binary_data(data):
-    # breakpoint()
     output = ""
     for c in data:
         if c in replacements:
