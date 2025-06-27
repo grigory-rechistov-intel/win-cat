@@ -32,6 +32,16 @@ def main(prefix):
         (["characterization/input1"], "characterization/input1.ref"),
         (["-h"], "characterization/dash-h.ref"),
         (["-"], "characterization/output0.ref"),
+        (["-v", "characterization/input-0x00"], "characterization/output-0x00-dash-v.ref"),
+        (["-v", "characterization/input-0x20"], "characterization/output-0x20-dash-v.ref"),
+        (["-v", "characterization/input-0x80"], "characterization/output-0x80-dash-v.ref"),
+        (["-v", "characterization/input-0xa0"], "characterization/output-0xa0-dash-v.ref"),
+        (["-A", "characterization/input-0x00"], "characterization/output-0x00-dash-A.ref"),
+        (["-A", "characterization/input-0x20"], "characterization/output-0x20-dash-A.ref"),
+        (["-A", "characterization/input-0x80"], "characterization/output-0x80-dash-A.ref"),
+        (["-A", "characterization/input-0xa0"], "characterization/output-0xa0-dash-A.ref"),
+        (["-T", "characterization/input-tab"], "characterization/output-tab-dash-T.ref"),
+        (["-E", "characterization/input-newline"], "characterization/output-newline-dash-E.ref"),
     )
 
     for cmdline, reference in input_cases:
