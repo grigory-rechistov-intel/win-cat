@@ -3,9 +3,20 @@
 import sys
 import argparse
 
+
+class SetAllOptions(argparse.Action):
+    def __init__(self, option_strings, dest, **kwargs):
+        super().__init__(option_strings, dest, nargs=0, **kwargs)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        setattr(namespace, "show_ends", True)
+        setattr(namespace, "show_tabs", True)
+        setattr(namespace, "show_nonprinting", True)
+
+
 parser = argparse.ArgumentParser(prog="cat", description="Concatenate FILE(s) to standard output.\n\nWith no FILE or when FILE is -, read standard input.")
 parser.add_argument("files", metavar="FILE", type=str, nargs="*", help="A file to print or - for standard input")
-parser.add_argument("-A", "--show-all", action="store_true", help="equivalent to -vET")
+parser.add_argument("-A", "--show-all", action=SetAllOptions, help="equivalent to -vET")
 parser.add_argument("-E", "--show-ends", action="store_true", help="display $ at the end of each line")
 parser.add_argument("-T", "--show-tabs", action="store_true", help="display TAB character as ^I")
 parser.add_argument("-v", "--show-nonprinting", action="store_true", help="use ^ and M- notation, except for LFD and TAB")
@@ -60,11 +71,6 @@ def display_binary_data(data, replacements: dict[int, str]):
 
 def main():
     args = parser.parse_args()
-    if args.show_all:
-        args.show_ends = True
-        args.show_tabs = True
-        args.show_nonprinting = True
-
     replacements = get_replacements(
         args.show_ends, args.show_tabs, args.show_nonprinting
     )
