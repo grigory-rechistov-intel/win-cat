@@ -22,21 +22,6 @@ parser.add_argument("-T", "--show-tabs", action="store_true", help="display TAB 
 parser.add_argument("-v", "--show-nonprinting", action="store_true", help="use ^ and M- notation, except for LFD and TAB")
 
 
-def nonprinting_replacements() -> dict[int, str]:
-    lookup = {}
-
-    for i in range(9):
-        lookup[i] = "^" + chr(i + 64)
-    for i in range(11, 32):
-        lookup[i] = "^" + chr(i + 64)
-    for i in range(128, 160):
-        lookup[i] = "M-^" + chr(i - 64)
-    for i in range(160, 255):
-        lookup[i] = "M-" + chr(i - 128)
-    lookup[255] = "M-^?"
-
-    return lookup
-
 def get_replacements(
     show_ends: bool, show_tabs: bool, show_nonprinting: bool
 ) -> dict[int, str]:
@@ -44,10 +29,20 @@ def get_replacements(
 
     if show_ends:
         replacements[10] = "$\n"
+
     if show_tabs:
         replacements[9] = "^I"
+
     if show_nonprinting:
-        replacements.update(nonprinting_replacements())
+        for i in range(9):
+            replacements[i] = "^" + chr(i + 64)
+        for i in range(11, 32):
+            replacements[i] = "^" + chr(i + 64)
+        for i in range(128, 160):
+            replacements[i] = "M-^" + chr(i - 64)
+        for i in range(160, 255):
+            replacements[i] = "M-" + chr(i - 128)
+        replacements[255] = "M-^?"
     
     return replacements
 
