@@ -69,12 +69,12 @@ def cat_from_stdin(replacements: dict[int, str]):
         while True:
             c = sys.stdin.read(1)
             if c == "":
-                sys.exit(0)
+                break
             display_data(c + sys.stdin.readline(), replacements)
     except KeyboardInterrupt:
         sys.exit(0)
     except EOFError:
-        sys.exit(0)
+        pass
 
 def main():
     args = parser.parse_args()
@@ -84,18 +84,19 @@ def main():
 
     if len(args.files) == 0:
         cat_from_stdin(replacements)
-    else:
-        for filename in args.files:
-            if filename == "-":
-                cat_from_stdin(replacements)
-            else:
-                try:
-                    with open(filename, "rb") as f:
-                        display_binary_data(f.read(), replacements)
-                except FileNotFoundError:
-                    print("cat: %s: No such file or directory" % filename, file=sys.stderr)
-                except IsADirectoryError:
-                    print("cat: %s: Is a directory" % filename, file=sys.stderr)
+
+    for filename in args.files:
+        if filename == "-":
+            cat_from_stdin(replacements)
+            continue
+
+        try:
+            with open(filename, "rb") as f:
+                display_binary_data(f.read(), replacements)
+        except FileNotFoundError:
+            print("cat: %s: No such file or directory" % filename, file=sys.stderr)
+        except IsADirectoryError:
+            print("cat: %s: Is a directory" % filename, file=sys.stderr)
 
 if __name__ == "__main__":
     main()
