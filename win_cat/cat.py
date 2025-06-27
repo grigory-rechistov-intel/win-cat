@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-from __future__ import print_function
 
 import sys
 import argparse
-
-if sys.version_info[0] == 2:
-    # Python 2
-    FileNotFoundError = IOError
 
 NUMBER_ALL = 1
 NUMBER_NONBLANK = 2
