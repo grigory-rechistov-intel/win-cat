@@ -46,15 +46,6 @@ def get_replacements(
     
     return replacements
 
-def display_data(data: str, replacements: dict[int, str]):
-    output = ""
-    for c in data:
-        if ord(c) in replacements:
-            output += replacements[ord(c)]
-        else:
-            output += c
-    sys.stdout.write(output)
-
 def display_binary_data(data: bytes, replacements: dict[int, str]):
     output = ""
     for c in data:
@@ -65,16 +56,15 @@ def display_binary_data(data: bytes, replacements: dict[int, str]):
     sys.stdout.write(output)
 
 def cat_from_stdin(replacements: dict[int, str]):
+    s = b""
     try:
-        while True:
-            c = sys.stdin.read(1)
-            if c == "":
-                break
-            display_data(c + sys.stdin.readline(), replacements)
+        for c in sys.stdin:
+            s += c.encode("utf-8")
     except KeyboardInterrupt:
         sys.exit(0)
     except EOFError:
         pass
+    display_binary_data(s, replacements)
 
 def main():
     args = parser.parse_args()
